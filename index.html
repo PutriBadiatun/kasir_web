@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maroon POS - Retail Premium</title>
+    <title>Kasir Putri - Retail Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,7 +22,7 @@
         <div class="flex items-center gap-4">
             <button onclick="toggleSidebar()" class="text-xl focus:outline-none hover:text-amber-200 transition"><i class="fas fa-bars"></i></button>
             <h1 class="text-xl font-bold tracking-wide flex items-center gap-2">
-                <i class="fas fa-store text-amber-300"></i> MAROON <span class="font-light text-amber-100 text-sm bg-black/20 px-2 py-0.5 rounded-md">POS PRO</span>
+                <i class="fas fa-store text-amber-300"></i> KASIR PUTRI <span class="font-light text-amber-100 text-sm bg-black/20 px-2 py-0.5 rounded-md">PRO</span>
             </h1>
         </div>
         <div id="statusSistem" class="text-xs bg-emerald-600 font-semibold px-4 py-1.5 rounded-full shadow-inner flex items-center gap-2">
@@ -48,7 +48,7 @@
                 </div>
                 
                 <div id="katalogProduk" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    </div>
+                </div>
             </div>
 
             <div class="lg:col-span-3">
@@ -116,7 +116,7 @@
                         </tr>
                     </thead>
                     <tbody id="bodyTabelRiwayat" class="divide-y divide-gray-100 text-gray-600">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -160,7 +160,7 @@
     </main>
 
     <script>
-        // ⚠️ TAUTKAN LINK WEB APP URL SCRIPT KAMU DI SINI
+        // ⚠️ TAUTKAN LINK WEB APP URL SCRIPT VERSI TERBARU KAMU DI SINI
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZKm7FbBDs9kiX9d43AekTC9xHhDU1VHvGB2B6ag2Yft5OVIW0_6cV5B5-AHHc3Zbg/exec";
 
         let dbProduk = [];
@@ -182,7 +182,6 @@
                 }
             })
             .catch(() => {
-                // Fail-safe dummy jika URL script belum ditempel agar UI tetap tampil menawan
                 dbProduk = [
                     { kode: "P1", nama: "Gula Pasir 1/4", harga: 5000, stok: 12, gambar: "https://images.unsplash.com/photo-1622484211148-716598e04141?w=400" },
                     { kode: "P2", nama: "Mie Instan Goreng", harga: 3500, stok: 45, gambar: "https://images.unsplash.com/photo-1612966608997-30d52940e484?w=400" },
@@ -312,7 +311,6 @@
             .then(res => {
                 if(res.status === "success") {
                     alert("Sukses! Nota " + notaID + " tersimpan ke Jurnal Spreadsheet.");
-                    // Update ke riwayat tabel lokal langsung
                     const bodyTable = document.getElementById('bodyTabelRiwayat');
                     const stringsBarang = keranjangPOS.map(k => `${k.nama} (${k.jumlah}x)`).join(", ");
                     bodyTable.innerHTML = `
@@ -329,7 +327,8 @@
                     keranjangPOS = [];
                     document.getElementById('inputBayar').value = "";
                     refreshKeranjangUI();
-                    ambilStokProdukSpreadsheet(); // sinkron ulang stok berkurang
+                    ambilStokProdukSpreadsheet(); // Update stok katalog halaman utama
+                    tarikDataDashboard();         // Otomatis sinkronisasi data keuangan/dashboard
                 }
             })
             .catch(() => {
